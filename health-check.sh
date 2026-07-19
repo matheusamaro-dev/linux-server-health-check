@@ -6,7 +6,7 @@
 set -uo pipefail
 export LC_ALL=C
 
-readonly SCRIPT_VERSION="1.0.0"
+readonly SCRIPT_VERSION="1.0.1"
 readonly CHECK_TARGET="${CHECK_TARGET:-1.1.1.1}"
 readonly CPU_WARN="${CPU_WARN:-80}"
 readonly CPU_CRIT="${CPU_CRIT:-95}"
@@ -225,7 +225,7 @@ print_metric 'Disco raiz (/)' "${disk_usage}% - ${disk_detail:-N/A}" "$disk_stat
 
 load1="$(awk '{print $1}' /proc/loadavg 2>/dev/null || printf '0')"
 cpu_count="$(get_cpu_count)"
-load_ratio="$(awk -v load="$load1" -v cores="$cpu_count" 'BEGIN {if (cores < 1) cores=1; printf "%d", (load*100)/cores}')"
+load_ratio="$(awk -v load_value="$load1" -v cores="$cpu_count" 'BEGIN {if (cores < 1) cores=1; printf "%d", (load_value*100)/cores}')"
 if (( load_ratio >= 200 )); then
   load_status='CRITICO'
 elif (( load_ratio >= 100 )); then
